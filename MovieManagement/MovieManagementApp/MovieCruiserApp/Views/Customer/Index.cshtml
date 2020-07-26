@@ -1,0 +1,93 @@
+﻿@model IEnumerable<MovieCruiserApp.Models.MovieItem>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BoxOffice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HasTeaser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsFavorite)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateOfLaunch)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Active)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GenreId)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model)
+{
+        <tr>
+          
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BoxOffice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HasTeaser)
+            </td>
+            
+                @{ 
+                    List<MovieItem> listm = ViewBag.FavMovies;
+                    MovieItem? check = listm.FirstOrDefault(m => m.Id == item.Id);
+
+                    if (check !=null)
+                    {
+                            <td>
+                                @Html.CheckBox("IsFavorite", true,new {@disabled = "disabled" })
+                             </td>
+                    }
+                    else
+                    {
+                            <td>
+                                @Html.DisplayFor(modelItem => item.IsFavorite)
+                            </td>
+                        }
+                    }
+
+            <td>
+                @Html.DisplayFor(modelItem => item.DateOfLaunch)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Active)
+            </td>
+            <td>
+                @{ List<Genre> list = ViewBag.Genres;}
+                @Html.DisplayFor(modelItem => list.FirstOrDefault(g=>g.Id == item.GenreId).Name)
+            </td>
+            <td>
+                @if (check == null)
+                {
+                @Html.ActionLink("Add To Favorites", "AddToFavorites", new { id = item.Id }, new { @disabled = "disabled" })}|
+                @Html.ActionLink("Buy Tickets", "Details", new { id = item.Id }) 
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

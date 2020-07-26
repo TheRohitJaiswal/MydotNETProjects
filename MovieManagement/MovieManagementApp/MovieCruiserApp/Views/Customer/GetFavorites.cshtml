@@ -1,0 +1,65 @@
+﻿@model IEnumerable<MovieCruiserApp.Models.MovieItem>
+
+@{
+    ViewData["Title"] = "GetFavorites";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>GetFavorites</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BoxOffice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HasTeaser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateOfLaunch)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Active)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GenreId)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BoxOffice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HasTeaser)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateOfLaunch)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Active)
+            </td>
+            <td>
+                @{ List<Genre> list = ViewBag.Genres;}
+                @Html.DisplayFor(modelItem => list.FirstOrDefault(g => g.Id == item.GenreId).Name)
+            </td>
+            <td>
+                @Html.ActionLink("Buy Tickets", "BuyTickets", new {  }) |
+                @Html.ActionLink("Remove from Favorites", "Remove", new { id = item.Id })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
